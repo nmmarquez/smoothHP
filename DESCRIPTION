@@ -1,0 +1,18 @@
+Package: smoothHP
+Type: Package
+Title: Forecasting using the Inoue modified HP method
+Version: 0.1.0
+Authors@R: c(person("Neal","Marquez",role=c("aut","cre","cph"),email="nmarquez@uw.edu"))
+Author: Neal Marquez [aut, cre, cph]
+Maintainer: Neal Marquez <nmarquez@uw.edu>
+Description: Forecasting using the Inoue modified HP method.
+    Using smoothed CCR and CWR project populations using only population values.
+Depends:
+    R (>= 4.0.0),
+    dplyr,
+    data.table
+License: GPL (>= 2)
+BugReports: https://github.com/nmmarquez/snoothHP/issues
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.1.1
