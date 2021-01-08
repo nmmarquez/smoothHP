@@ -60,11 +60,8 @@ interested in making projections for all provided racial and ethnic
 groups without smoothing. The code would be the following
 
 ``` r
-raceth_DF <- kc_pop_data[
-    ,.(value = sum(value)), by = list(Year, Sex, Race, Age5, County)]
-
 unsmooth_DF <- multi_stage_group_HP_project(
-    raceth_DF, stages = list(c("County", "Race")))
+    kc_pop_data, stages = list(c("County", "Race")))
 ```
 
 Here we provided the `multi_stage_group_HP_project` a stages parameter
@@ -75,7 +72,7 @@ provide a list of length 2 as seen below.
 
 ``` r
 smooth_DF <- multi_stage_group_HP_project(
-    raceth_DF, stages = list("County", "Race"))
+    kc_pop_data, stages = list("County", "Race"))
 ```
 
 We can compare the smooth to the non-smoothed estimates visually to see
@@ -83,6 +80,9 @@ the effects that the smoothing process had on the projections.
 
 ``` r
 library(ggplot2)
+
+raceth_DF <- kc_pop_data[
+    ,.(value = sum(value)), by = list(Year, Sex, Race, Age5, County)]
 
 raceth_DF[,Type:="Data"]
 smooth_DF[,Type:="Smoothed"]
@@ -96,7 +96,10 @@ bind_rows(raceth_DF, smooth_DF, unsmooth_DF) %>%
     theme_classic() +
     labs(
         y = "Population Estimate (in millions)",
-        color = "Racial and Ethnic Categories")
+        color = "Racial and Ethnic Categories") +
+    ggtitle(
+        "Population Forecasts by Race and Ethnicity",
+        "Comparison of Smoothing Approaches")
 ```
 
 ![](README_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->

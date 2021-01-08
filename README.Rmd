@@ -41,18 +41,15 @@ The `smoothHP` package is capable of making projections at multiple levels with 
 
 
 ```{r, message=FALSE, warning=FALSE}
-raceth_DF <- kc_pop_data[
-    ,.(value = sum(value)), by = list(Year, Sex, Race, Age5, County)]
-
 unsmooth_DF <- multi_stage_group_HP_project(
-    raceth_DF, stages = list(c("County", "Race")))
+    kc_pop_data, stages = list(c("County", "Race")))
 ```
 
 Here we provided the `multi_stage_group_HP_project` a stages parameter which is a list of length 1 which the function interprets to only do only one layer of HP projections with no smoothing. If we instead we wanted to smooth race specific estimates to the county average we would provide a list of length 2 as seen below.
 
 ```{r, message=FALSE, warning=FALSE}
 smooth_DF <- multi_stage_group_HP_project(
-    raceth_DF, stages = list("County", "Race"))
+    kc_pop_data, stages = list("County", "Race"))
 ```
 
 
@@ -60,6 +57,9 @@ We can compare the smooth to the non-smoothed estimates visually to see the effe
 
 ```{r, message=FALSE, warning=FALSE}
 library(ggplot2)
+
+raceth_DF <- kc_pop_data[
+    ,.(value = sum(value)), by = list(Year, Sex, Race, Age5, County)]
 
 raceth_DF[,Type:="Data"]
 smooth_DF[,Type:="Smoothed"]
@@ -73,7 +73,10 @@ bind_rows(raceth_DF, smooth_DF, unsmooth_DF) %>%
     theme_classic() +
     labs(
         y = "Population Estimate (in millions)",
-        color = "Racial and Ethnic Categories")
+        color = "Racial and Ethnic Categories") +
+    ggtitle(
+        "Population Forecasts by Race and Ethnicity",
+        "Comparison of Smoothing Approaches")
 ```
 
 Direct estimates using the HP method seem to provide implausible results in this case while using a smoothing approach gives us more reasonable growth projections for each group.
