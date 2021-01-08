@@ -107,6 +107,6 @@ All of the functions provided by the `smoothHP` package allow you to do any numb
 
 The development of this `R` package and the forthcoming  research articles associated with it were made possible by financial support from the following organizations.
 
-![csde](https://csde.washington.edu/wp-content/uploads/2016/10/LOGO600-V2-Transparent-500px.png)
-![uw](https://s3-us-west-2.amazonaws.com/uw-s3-cdn/wp-content/uploads/sites/98/2014/09/07214451/W-Logo_Purple_Hex.png)
-![kcsph](https://sanjuanislander.com/images/logos/King-cty-Seattle-ph.jpg)
+[![csde](https://csde.washington.edu/wp-content/uploads/2016/10/LOGO600-V2-Transparent-500px.png)](https://csde.washington.edu/)
+[![uw](https://s3-us-west-2.amazonaws.com/uw-s3-cdn/wp-content/uploads/sites/98/2014/09/07214451/W-Logo_Purple_Hex.png)](http://www.washington.edu/)
+[![kcsph](https://sanjuanislander.com/images/logos/King-cty-Seattle-ph.jpg)](https://www.kingcounty.gov/depts/health.aspx)
