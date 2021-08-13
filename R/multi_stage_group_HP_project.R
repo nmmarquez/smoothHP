@@ -15,7 +15,7 @@
 #'
 #' @export
 #' @examples
-#' multi_stage_group_HP_project(kc_pop_data)
+#' multi_stage_group_HP_project(kc_pop_data, par_year = 2015)
 
 multi_stage_group_HP_project <- function(
     DF, years_out = 30, par_year = NULL, proj_year = NULL,

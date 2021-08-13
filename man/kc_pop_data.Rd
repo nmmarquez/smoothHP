@@ -17,7 +17,7 @@ A data frame with 200,592 rows and 7 variables:
 }
 }
 \source{
-\url{http://www.diamondse.info/}
+\url{https://ofm.wa.gov/washington-data-research/population-demographics/population-estimates/estimates-april-1-population-age-sex-race-and-hispanic-origin}
 }
 \usage{
 kc_pop_data
@@ -25,6 +25,11 @@ kc_pop_data
 \description{
 A data set containing population estimates of King County, Washington census
 tracts by age, race, ethnicity, and sex. Pulled from the Office of Finance
-and Management.
+and Management. The value column contains the population estimate for a
+particular demographic group. These numbers are not integers and OFM states
+the following: OFM leaves the data in decimals for two reasons. First,
+we want the results to total to control numbers correctly and rounding would
+make that impossible. Second, we want to remind users that these data are
+estimates only and not actual enumerations.
 }
 \keyword{datasets}

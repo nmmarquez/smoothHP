@@ -34,5 +34,5 @@ data frame object with projected values
 Produces 5 year forecasts out to specified year for multiple
 }
 \examples{
-multi_stage_group_HP_project(kc_pop_data)
+multi_stage_group_HP_project(kc_pop_data, par_year = 2015)
 }
