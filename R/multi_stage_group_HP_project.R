@@ -33,7 +33,7 @@ multi_stage_group_HP_project <- function(
         DF[Year == par_year | Year == (par_year - 5),], stages = stages)
 
     group_cwr_df <- multi_stage_CWR_estimates(
-        DF[Year == par_year,], stages = stages)
+        DF[(Year == par_year),], stages = stages)
 
     group_df <- DF %>%
         group_by(across(all_of(c(unlist(stages), "Year", "Age5", "Sex")))) %>%

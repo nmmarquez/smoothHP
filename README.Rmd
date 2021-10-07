@@ -42,14 +42,16 @@ The `smoothHP` package is capable of making projections at multiple levels with 
 
 ```{r, message=FALSE, warning=FALSE}
 unsmooth_DF <- multi_stage_group_HP_project(
-    kc_pop_data, stages = list(c("County", "Race")))
+    kc_pop_data[kc_pop_data$Year %in% c(2010,2015)],
+    stages = list(c("County", "Race")))
 ```
 
 Here we provided the `multi_stage_group_HP_project` a stages parameter which is a list of length 1 which the function interprets to only do only one layer of HP projections with no smoothing. If we instead we wanted to smooth race specific estimates to the county average we would provide a list of length 2 as seen below.
 
 ```{r, message=FALSE, warning=FALSE}
 smooth_DF <- multi_stage_group_HP_project(
-    kc_pop_data, stages = list("County", "Race"))
+    kc_pop_data[kc_pop_data$Year %in% c(2010,2015)],
+    stages = list("County", "Race"))
 ```
 
 
@@ -86,20 +88,37 @@ Direct estimates using the HP method seem to provide implausible results in this
 We may also want to do additional layers of smoothing to make race and ethnicity specific estimates at smaller areas (and subsequently smaller population estimates) which may be more unstable with direct estimates. Here again we demonstrate two approaches, one where we look at each small area estimate racial and ethic group and smooth them to the county population totals and another which introduces a two tiered smoothing approach. In this case rather than looking directly at the projections we instead examine the components of the projections, specifically the CWR estimate of the HP method.
 
 ```{r, message=FALSE, warning=FALSE}
-bind_rows(
-    multi_stage_CWR_estimates(
-        kc_pop_data, stages = list("County", c("Race", "GEOID"))) %>%
-        mutate(Method = "One Stage"),
-    multi_stage_CWR_estimates(
-        kc_pop_data, stages = list("County", "Race", "GEOID")) %>%
-        mutate(Method = "Two Stage")) %>%
-    filter(Sex == "Female" & Race != "Two or More Races") %>%
-    ggplot(aes(x = CWR, fill = Method, color = Method)) +
+anlyz_groups <- c(
+    "Asian",
+    "White",
+    "AIAN"
+)
+
+smooth_results <- bind_rows(
+    multi_stage_CCR_estimates(
+        kc_pop_data[kc_pop_data$Year %in% c(2010,2015)],
+        stages = list(c("County", "Race", "GEOID"))) %>%
+        mutate(Method = "HP Method"),
+    multi_stage_CCR_estimates(
+        kc_pop_data[kc_pop_data$Year %in% c(2010,2015)],
+        stages = list("County", c("Race", "GEOID"))) %>%
+        mutate(Method = "Single Stage\nSmoothing"),
+    multi_stage_CCR_estimates(
+        kc_pop_data[kc_pop_data$Year %in% c(2010,2015)],
+        stages = list("County", "Race", "GEOID")) %>%
+        mutate(Method = "Multi Stage\nSmoothing"))
+
+smooth_results %>%
+    filter(Sex == "Male" & Race %in% anlyz_groups & Age5 == "25-29") %>%
+    filter(is.finite(CCR)) %>%
+    filter(Method != "HP Method") %>%
+    ggplot(aes(x = CCR, fill = Race, color = Race)) +
     geom_density(alpha = .4) +
-    facet_wrap(~Race, scales = "free") +
+    facet_wrap(~Method, scales = "free_y") +
     theme_classic() +
+    labs(x = "Cohort Change Ratio", y = "Density") +
     ggtitle(
-        "Distribution of Female CWR estimates by Race and Ethnicity",
+        "Distribution of Male CCR Estimates by Race",
         "Comparison of Smoothing Approaches")
 ```
 In this example by using a one stage smoothing approach, we may over-smooth estimates of CWR to the county average while a two stage approach allows more variation between racial and ethnic groups.
