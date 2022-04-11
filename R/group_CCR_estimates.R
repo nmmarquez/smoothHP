@@ -40,7 +40,8 @@ group_CCR_estimates <- function(
             group_ccr_df[, P := NULL]
             group_ccr_df[, Z := NULL]
             group_ccr_df[, Q := NULL]
-            group_ccr_df <- merge(group_ccr_df, ps_df)
+            by_cols <- intersect(names(group_ccr_df) , names(ps_df))
+            group_ccr_df <- merge(group_ccr_df, ps_df, by = by_cols)
             group_ccr_df[, iw := sqrt(pi) / (sqrt(pi) + sqrt(P))]
             group_ccr_df[, W := sqrt(P) / (sqrt(pi) + sqrt(P))]
         }

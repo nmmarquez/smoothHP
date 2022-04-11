@@ -32,7 +32,8 @@ group_CWR_estimates <- function(
             group_cwr_df[, P := NULL]
             group_cwr_df[, Z := NULL]
             group_cwr_df[, Q := NULL]
-            group_cwr_df <- merge(group_cwr_df, ps_df)
+            by_cols <- intersect(names(group_cwr_df) , names(ps_df))
+            group_cwr_df <- merge(group_cwr_df, ps_df, by = by_cols)
             group_cwr_df[, iw := sqrt(pi) / (sqrt(pi) + sqrt(P))]
             group_cwr_df[, W := sqrt(P) / (sqrt(pi) + sqrt(P))]
         }

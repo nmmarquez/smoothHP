@@ -5,7 +5,32 @@ output: github_document
 
 # smoothHP
 
-`smoothHP` is an R package with a set of conveince functions and data for making population projections using a modified version of the Hamilton-Perry (HP) method outlined by [Takashi Inoue 2016](https://link.springer.com/chapter/10.1007/978-3-319-43329-5_22). Unlike the more prevalent cohort component method, the HP method allows for population projections to be made in the absence of fertility, mortality, and migration data, only relying on changes in population. The version utilized in this R package allows for hierarchical smoothing comparable to an empirical Bayes approach such that sub-population projections may more closely resemble their group average.
+`smoothHP` is an R package with a set of convenience functions and data for making population projections using a modified version of the Hamilton-Perry (HP) method outlined by [Takashi Inoue 2016](https://link.springer.com/chapter/10.1007/978-3-319-43329-5_22). Unlike the more prevalent cohort component method, the HP method allows for population projections to be made in the absence of fertility, mortality, and migration data, only relying on changes in population. The version utilized in this R package allows for hierarchical smoothing comparable to an empirical Bayes approach such that sub-population projections may more closely resemble their group average.
+
+# Two Stage Smoothing example
+
+$$
+~_{5}CCR^m_{20}~=\frac{~_{5}P^m_{25,2015}}{~_{5}P^m_{20,2010}}
+$$
+
+$$
+\underbrace{~_5^rSCCR^s_a}_{\substack{\text{smoothed} \\ \text{race CCR}}}~=\underbrace{~^rW}_{\substack{\text{race} \\ \text{weight}}}~\times\underbrace{~_5^rCCR^s_a}_{\substack{\text{raw HP} \\ \text{race CCR}}} ~+~\underbrace{~^r\Omega}_{\substack{\text{county} \\ \text{weight}}}~\times\underbrace{~_5CCR^s_a}_{\substack{\text{raw HP} \\ \text{county CCR}}}
+$$
+$$
+\begin{align*}
+~^rW~&=~\frac{\sqrt{~_5^rP^s_{a,y}}}{\sqrt{~_5^rP^s_{a,y}} + \sqrt{~_5P^s_{a,y}}} \\
+~^r\Omega~&=~1 - ~^rW
+\end{align*}
+$$
+$$
+\underbrace{~_5^{rt}SSCCR^s_a}_{\substack{\text{twice smoothed} \\ \text{race-tract CCR}}}~=\underbrace{~^{rt}W}_{\substack{\text{race-tract} \\ \text{weight}}}~\times\underbrace{~_5^{rt}CCR^s_a}_{\substack{\text{raw HP} \\ \text{race-tract CCR}}} ~+~\underbrace{~^{rt}\Omega}_{\substack{\text{race} \\ \text{weight}}}~\times\underbrace{~_5^rSCCR^s_a}_{\substack{\text{smoothed} \\ \text{race CCR}}}
+$$
+$$
+\begin{align*}
+~^{rt}W~&=~\frac{\sqrt{~_5^{rt}P^s_{a,y}}}{\sqrt{~_5^{rt}P^s_{a,y}} + \sqrt{~_5^rP^s_{a,y}}} \\
+~^{rt}\Omega~&=~1 - ~^{rt}W
+\end{align*}
+$$
 
 ## Installation
 
